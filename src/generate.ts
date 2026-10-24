@@ -40,7 +40,7 @@ Never mention ${brand.name} or any product; a call-to-action slide is added sepa
 
 Rules:
 - hook: max 12 words. Specific and concrete. Creates a gap the reader wants closed. No clickbait that the slides don't pay off.
-- slides: 5 to 6 content slides. heading max 8 words, body max 25 words. Plain language, short sentences.
+- slides: ${brand.contentSlides.min} to ${brand.contentSlides.max} content slides. heading max 8 words, body max 25 words. Plain language, short sentences.
 - Write all slide text in lowercase.
 - No emoji. No hashtags inside slide text. No "in this video".
 - caption: one or two sentences, max 150 characters.
@@ -63,8 +63,8 @@ function valid(v: any): boolean {
     typeof v?.caption === "string" &&
     Array.isArray(v?.hashtags) &&
     Array.isArray(v?.slides) &&
-    v.slides.length >= 4 &&
-    v.slides.length <= 7 &&
+    v.slides.length >= brand.contentSlides.min &&
+    v.slides.length <= brand.contentSlides.max &&
     v.slides.every(
       (s: any) => typeof s?.heading === "string" && typeof s?.body === "string",
     )

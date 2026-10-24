@@ -90,9 +90,15 @@ for (const dir of dirs) {
   // the next pass, so a photo only repeats after all the others have appeared.
   const rand = seedFrom(dir);
   let pool: string[] = [];
+  let last = "";
   const nextBackground = (): string => {
-    if (!pool.length) pool = shuffle(backgrounds, rand);
-    return pool.pop() as string;
+    if (!pool.length) {
+      pool = shuffle(backgrounds, rand);
+      // Never repeat the previous slide's photo when a new pass starts.
+      if (pool.length > 1 && pool[pool.length - 1] === last) pool.unshift(pool.pop() as string);
+    }
+    last = pool.pop() as string;
+    return last;
   };
 
   // Text block sits at a random spot, kept away from the top and the TikTok UI zone at the bottom.

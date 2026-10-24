@@ -65,6 +65,15 @@ window.__drawBubble = function () {
     });
   }
 
+  // Fill thin slits where a short line sits between two longer ones.
+  for (var pass = 0; pass < 2; pass++) {
+    for (i = 1; i < slabs.length - 1; i++) {
+      if (slabs[i].b - slabs[i].t > 1.2 * fs) continue;
+      slabs[i].r = Math.max(slabs[i].r, Math.min(slabs[i - 1].r, slabs[i + 1].r));
+      slabs[i].l = Math.min(slabs[i].l, Math.max(slabs[i - 1].l, slabs[i + 1].l));
+    }
+  }
+
   var pts = [];
   for (i = 0; i < slabs.length; i++) { pts.push([slabs[i].r, slabs[i].t]); pts.push([slabs[i].r, slabs[i].b]); }
   for (i = slabs.length - 1; i >= 0; i--) { pts.push([slabs[i].l, slabs[i].b]); pts.push([slabs[i].l, slabs[i].t]); }
