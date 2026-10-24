@@ -8,6 +8,9 @@ export interface SlideInput {
   body?: string;
   /** 1-based slide number. */
   number: number;
+  /** Top-left corner of the text block in px. Defaults to roughly centred. */
+  x?: number;
+  y?: number;
 }
 
 export const esc = (s: string) =>

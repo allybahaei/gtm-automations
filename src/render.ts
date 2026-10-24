@@ -95,9 +95,15 @@ for (const dir of dirs) {
     return pool.pop() as string;
   };
 
+  // Text block sits at a random spot, kept away from the top and the TikTok UI zone at the bottom.
+  const place = seedFrom(`${dir}:layout`);
+  const between = (min: number, max: number) => Math.round(min + place() * (max - min));
+
   for (const [i, slide] of slides.entries()) {
     const background = nextBackground();
-    await page.setContent(slideHtml({ ...slide, number: i + 1 }, background), { waitUntil: "load" });
+    const x = between(60, 340);
+    const y = between(420, 760);
+    await page.setContent(slideHtml({ ...slide, number: i + 1, x, y }, background), { waitUntil: "load" });
     const interReady = await page.evaluate(async () => {
       await Promise.all([400, 500, 600].map((weight) => document.fonts.load(`${weight} 32px Inter`)));
       await document.fonts.ready;
