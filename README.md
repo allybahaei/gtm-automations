@@ -16,8 +16,9 @@ Generates TikTok photo slideshows (1080x1440 (3:4) PNGs + caption) for Solus.
 
 Formats: `explainer`, `myths`, `path`, `counterintuitive`.
 
-Photos come from `images/`. Add jpg, png, or webp files there. Slides use them in
-filename order, and start over at the first photo when a deck has more slides than photos.
+Photos come from `images/`. Add jpg, png, or webp files there. Each deck draws them in a
+random order, using every photo once before any repeats. The order is seeded from the deck
+folder, so `render --force` keeps a deck's photos stable.
 
 Output lands in `out/<date>-<topic>-<format>-v<n>/` as `slide-1.png ... slide-N.png`,
 `caption.txt` and `slideshow.json`.
