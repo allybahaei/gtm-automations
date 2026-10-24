@@ -6,7 +6,7 @@ import { brand } from "./config.js";
 import { slideHtml, type SlideInput } from "./template.js";
 import type { Slideshow } from "./types.js";
 
-const BG_DIR = "assets/backgrounds";
+const BG_DIR = "images";
 const MIME: Record<string, string> = {
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
@@ -58,16 +58,21 @@ for (const dir of dirs) {
   if (!force && existsSync(path.join(dir, "slide-1.png"))) continue;
 
   const show: Slideshow = JSON.parse(await readFile(file, "utf8"));
-  const slides: SlideInput[] = [
+  const slides: Omit<SlideInput, "number">[] = [
     { kind: "hook", heading: show.hook },
-    ...show.slides.map((s): SlideInput => ({ kind: "content", heading: s.heading, body: s.body })),
+    ...show.slides.map((s): Omit<SlideInput, "number"> => ({ kind: "content", heading: s.heading, body: s.body })),
     { kind: "cta", heading: brand.cta.heading, body: brand.cta.sub },
   ];
 
   for (const [i, slide] of slides.entries()) {
     const background = backgrounds[i % backgrounds.length];
-    await page.setContent(slideHtml(slide, background), { waitUntil: "networkidle" });
-    await page.evaluate(() => document.fonts.ready);
+    await page.setContent(slideHtml({ ...slide, number: i + 1 }, background), { waitUntil: "load" });
+    const interReady = await page.evaluate(async () => {
+      await Promise.all([400, 500, 600].map((weight) => document.fonts.load(`${weight} 32px Inter`)));
+      await document.fonts.ready;
+      return [400, 500, 600].every((weight) => document.fonts.check(`${weight} 32px Inter`));
+    });
+    if (!interReady) throw new Error("Inter failed to load");
     await page.screenshot({ path: path.join(dir, `slide-${i + 1}.png`) });
   }
   console.log(`rendered ${slides.length} slides -> ${dir}`);

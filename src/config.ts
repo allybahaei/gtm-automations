@@ -5,6 +5,6 @@ export const brand = {
     heading: "Turn anything you're curious about into a map you can learn from.",
     sub: "Try it free. Link in bio.",
   },
-  size: { width: 1080, height: 1920 },
+  size: { width: 1080, height: 1440 },
   model: process.env.MODEL ?? "claude-sonnet-5-5",
 };
