@@ -41,6 +41,7 @@ Never mention ${brand.name} or any product; a call-to-action slide is added sepa
 Rules:
 - hook: max 12 words. Specific and concrete. Creates a gap the reader wants closed. No clickbait that the slides don't pay off.
 - slides: 5 to 6 content slides. heading max 8 words, body max 25 words. Plain language, short sentences.
+- Write all slide text in lowercase.
 - No emoji. No hashtags inside slide text. No "in this video".
 - caption: one or two sentences, max 150 characters.
 - hashtags: 3 to 5, lowercase, no # symbol.
